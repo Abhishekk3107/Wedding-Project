@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Heart, Calendar, MapPin, Clock, X, Music, Bot as Lotus, Users, MapPinned } from 'lucide-react';
+import { Heart, Calendar, MapPin, Clock, X, Music, Bot as Lotus, Users, MapPinned, CalendarHeart } from 'lucide-react';
+import img1 from './Images/img1.jpg';
+import img2 from './Images/img5.jpg';
+
 import Countdown from 'react-countdown';
 
 const Navbar = () => (
@@ -39,11 +42,11 @@ const CountdownTimer = () => {
       </div>
       <div className="bg-maroon/10 p-4 rounded-lg backdrop-blur-sm border border-gold/20">
         <div className="text-4xl font-bold text-gold">{minutes}</div>
-        <div className="text-maroon font-dancing text-xl">Minutes</div>
+        <div className="text-maroon font-dancing text-xl">Min</div>
       </div>
       <div className="bg-maroon/10 p-4 rounded-lg backdrop-blur-sm border border-gold/20">
         <div className="text-4xl font-bold text-gold">{seconds}</div>
-        <div className="text-maroon font-dancing text-xl">Seconds</div>
+        <div className="text-maroon font-dancing text-xl">Sec</div>
       </div>
     </div>
   );
@@ -77,7 +80,7 @@ const EventCard = ({ title, date, time, venue, imageUrl, delay, direction }) => 
     } hover:border-gold/40 transition-all duration-300`}
     style={{ animationDelay: `${delay}ms` }}
   >
-    <div className="absolute inset-0 opacity-10">
+    <div className="absolute inset-0 opacity-20">
       <img src={imageUrl} alt="" className="w-full h-full object-cover" />
     </div>
     <div className="relative">
@@ -123,47 +126,68 @@ const Shayari = ({ text, delay }) => (
 );
 
 function App() {
-  const [showRSVP, setShowRSVP] = useState(false);
+ 
   const [formData, setFormData] = useState({ name: '', email: '', attending: 'yes' });
+  
   const [isPlaying, setIsPlaying] = useState(false);
+  const [audio] = useState(new Audio("https://pagalfree.com/musics/128-Aaj%20Sajeya%20-%20Goldie%20Sohel%20128%20Kbps.mp3")); 
 
   useEffect(() => {
-    const audio = new Audio('https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3');
     audio.loop = true;
 
-    if (isPlaying) {
-      audio.play().catch(console.error);
-    }
+    // Try autoplay
+    audio.play()
+      .then(() => setIsPlaying(true))
+      .catch(() => {
+        console.log("Autoplay blocked. Waiting for user interaction...");
+      });
+
+    // Ensure music plays on first user interaction (click anywhere)
+    const enableAudio = () => {
+      if (!isPlaying) {
+        audio.play();
+        setIsPlaying(true);
+      }
+      document.removeEventListener("click", enableAudio);
+    };
+    document.addEventListener("click", enableAudio);
 
     return () => {
       audio.pause();
-      audio.currentTime = 0;
+      document.removeEventListener("click", enableAudio);
     };
-  }, [isPlaying]);
+  }, [audio, isPlaying]);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log('RSVP Submitted:', formData);
-    setShowRSVP(false);
-  };
+
 
   return (
     <div className="min-h-screen bg-wedding-texture text-gray-800">
       <Navbar />
       
       <button
-        onClick={() => setIsPlaying(!isPlaying)}
-        className="fixed top-20 right-6 z-50 bg-gold/90 p-3 rounded-full shadow-xl hover:bg-gold transition-colors duration-300"
-        title={isPlaying ? "Pause Music" : "Play Music"}
-      >
-        <Music className={`w-6 h-6 text-white ${isPlaying ? 'animate-float' : ''}`} />
-      </button>
+      className="fixed top-20 right-6 z-50 bg-gold/90 p-3 rounded-full shadow-xl hover:bg-gold transition-colors duration-300"
+      title="Background Music Playing"
+    >
+       <Music className={`w-6 h-6 text-white ${isPlaying ? 'animate-float' : ''}`} />
+
+    </button>
 
       <div className="relative max-w-6xl mx-auto px-6 pt-24 pb-20 space-y-20">
         <header className="text-center space-y-8 animate-scale-in">
           <div className="flex justify-center">
             <Heart className="w-20 h-20 text-gold animate-float" />
           </div>
+
+          <section className="flex justify-center items-center py-10">
+      <div className="relative border-8 border-gold p-2 rounded-3xl shadow-xl">
+        <img
+          src={img2} // Replace with your image URL
+          alt="Bride & Groom Portrait"
+          className="w-72 h-96 object-cover rounded-2xl"
+        />
+      </div>
+    </section>
+
           <div className="space-y-6">
             <h1 className="font-dancing text-7xl md:text-8xl text-gold animate-glow">
               Riya & Chirag
@@ -182,14 +206,19 @@ function App() {
           text="Dil se dil ka rishta jodne ka waqt aa gaya, ek nayi zindagi shuru karne ka waqt aa gaya" 
           delay={400}
         />
-
+ <div className="mt-4 text-xl font-semibold text-center text-gold-600 flex items-center justify-center gap-2">
+      <CalendarHeart className="mt-4 w-6 h-6 text-gold" /> 
+      <span className="mt-4 text-2xl font-bold text-center text-gold uppercase tracking-wide">
+       Event </span>  
+     
+    </div>
         <div id="events" className="grid md:grid-cols-2 gap-12">
           <EventCard
             title="Sagai (Engagement)"
             date="2nd June 2025"
             time="7:00 PM Onwards"
             venue="R.K. Banquet, Rakesh Marg, GT ROAD Ghaziabad, Uttar Pradesh"
-            imageUrl="https://images.unsplash.com/photo-1617307322016-56b2fc8b9c4e?auto=format&fit=crop&w=600&q=80"
+            imageUrl="https://cdn.venuelook.com/uploads/space_9208/1497422583_595x400.png"
             delay={800}
             direction="left"
           />
@@ -197,9 +226,8 @@ function App() {
             title="Sangeet / Mehendi"
             date="3rd June 2025"
             time="6:00 PM Onwards"
-            venue="104, Nasrat Pura, Near Tube Well, Ghaziabad"
-            imageUrl="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=600&q=80"
-            delay={900}
+            venue="J.S.B Party Hall, 49, G.Z.B, Navyug Market, Naya Ganj, Ghaziabad, Uttar Pradesh 201001 via Hapur Rd"
+             delay={900}
             direction="right"
           />
           <EventCard
@@ -207,7 +235,7 @@ function App() {
             date="4th June 2025"
             time="10:00 AM Onwards"
             venue="104, Nasrat Pura, Near Tube Well, Ghaziabad"
-            imageUrl="https://images.unsplash.com/photo-1596382791684-1b35b1419ca8?auto=format&fit=crop&w=600&q=80"
+           
             delay={1000}
             direction="left"
           />
@@ -216,11 +244,33 @@ function App() {
             date="4th June 2025"
             time="Barat Welcome at 8:00 PM"
             venue="F395 Mahindra Enclave, Amrit Banquet Hall, Shastri Nagar, Near Uttam School, Ghaziabad"
-            imageUrl="https://images.unsplash.com/photo-1620162009417-6a91a2978d48?auto=format&fit=crop&w=600&q=80"
+            imageUrl="https://media.weddingz.in/photologue/images/poornima-amrit-party-hall-poornima-amrit-party-hall-13.jpeg"
             delay={1100}
             direction="right"
           />
         </div>
+        <div className="p-4 rounded-xl underline text-center flex flex-col text-gold items-center">
+    
+      <Users className="w-8 h-8 text-gold mb-2" />
+
+   
+      <h3 className="text-2xl font-semibold text-gold">Family Members</h3>
+
+    </div>
+        <div className="flex flex-col justify-center items-center py-10">
+      <div className="border-8 border-gray-200 rounded-xl shadow-lg overflow-hidden max-w-4xl">
+        <img
+          src={img1} // Replace with your image path
+          alt="Beautiful Landscape"
+          className="w-full h-auto object-cover"
+        />
+      </div>
+
+      <p className="mt-6 text-lg text-center text-gray-700 italic max-w-2xl">
+        "Two families become one, as love unites us forever.  
+        May this journey be filled with joy, laughter, and endless love."
+      </p>
+    </div>
 
         <div id="families" className="grid md:grid-cols-2 gap-12">
           <FamilyCard
@@ -260,59 +310,6 @@ function App() {
           </div>
         </div>
       </div>
-
-      {showRSVP && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 animate-fade-in">
-          <div className="bg-cream/95 rounded-xl p-8 max-w-md w-full relative shadow-2xl border-2 border-gold/20">
-            <button
-              onClick={() => setShowRSVP(false)}
-              className="absolute right-4 top-4 text-maroon hover:text-deepRed transition-colors"
-            >
-              <X className="w-6 h-6" />
-            </button>
-            <h2 className="text-3xl font-dancing text-gold mb-6 animate-glow text-center">RSVP</h2>
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div>
-                <label className="block text-sm font-medium text-maroon">Name</label>
-                <input
-                  type="text"
-                  required
-                  className="mt-2 block w-full rounded-lg border-gold/20 shadow-sm focus:border-gold focus:ring focus:ring-gold/20 bg-white/50"
-                  value={formData.name}
-                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-maroon">Email</label>
-                <input
-                  type="email"
-                  required
-                  className="mt-2 block w-full rounded-lg border-gold/20 shadow-sm focus:border-gold focus:ring focus:ring-gold/20 bg-white/50"
-                  value={formData.email}
-                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-maroon">Attending?</label>
-                <select
-                  className="mt-2 block w-full rounded-lg border-gold/20 shadow-sm focus:border-gold focus:ring focus:ring-gold/20 bg-white/50"
-                  value={formData.attending}
-                  onChange={(e) => setFormData({ ...formData, attending: e.target.value })}
-                >
-                  <option value="yes">Yes, I will attend</option>
-                  <option value="no">No, I cannot attend</option>
-                </select>
-              </div>
-              <button
-                type="submit"
-                className="w-full bg-gold/90 hover:bg-gold text-white rounded-full py-3 text-lg transition-all duration-300 transform hover:scale-105 shadow-lg"
-              >
-                Submit
-              </button>
-            </form>
-          </div>
-        </div>
-      )}
     </div>
   );
 }
