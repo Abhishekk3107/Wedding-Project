@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Heart, Calendar, MapPin, Clock, X, Music, Bot as Lotus, Users, MapPinned, CalendarHeart } from 'lucide-react';
+import img from './Images/ganeshji.png';
 import img1 from './Images/img1.jpg';
 import img2 from './Images/img5.jpg';
 
@@ -11,7 +12,7 @@ const Navbar = () => (
       <div className="flex items-center justify-between h-16">
         <div className="flex items-center">
           <img 
-            src="./assets/ganeshji.png" 
+            src={img} 
             alt="Ganesh Ji"
             className="h-12 w-12"
           />
