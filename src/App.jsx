@@ -224,22 +224,13 @@ function App() {
             direction="left"
           />
           <EventCard
-            title="Sangeet / Mehendi"
+            title="Haldi / Mehendi"
             date="3rd June 2025"
             time="6:00 PM Onwards"
             venue="J.S.B Party Hall, 49, G.Z.B, Navyug Market, Naya Ganj, Ghaziabad, Uttar Pradesh 201001 via Hapur Rd"
              imageUrl="https://imagewedz.oyoroomscdn.com/medium/photologue/images/city-hotel-naya-ganj-ghaziabad.jpg"
              delay={900}
             direction="right"
-          />
-          <EventCard
-            title="Haldi"
-            date="4th June 2025"
-            time="10:00 AM Onwards"
-            venue="104, Nasrat Pura, Near Tube Well, Ghaziabad"
-            imageUrl="https://static.vecteezy.com/system/resources/previews/035/132/194/non_2x/a-simple-and-beautiful-decoration-for-a-indian-wedding-haldi-ceremony-photo.jpg"
-            delay={1000}
-            direction="left"
           />
           <EventCard
             title="Shadi (Wedding)"
