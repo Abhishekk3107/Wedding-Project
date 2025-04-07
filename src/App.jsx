@@ -213,35 +213,51 @@ function App() {
        Event </span>  
      
     </div>
-        <div id="events" className="grid md:grid-cols-2 gap-12">
-          <EventCard
-            title="Sagai (Engagement)"
-            date="2nd June 2025"
-            time="7:00 PM Onwards"
-            venue="R.K. Banquet, Rakesh Marg, GT ROAD Ghaziabad, Uttar Pradesh"
-            imageUrl="https://cdn.venuelook.com/uploads/space_9208/1497422583_595x400.png"
-            delay={800}
-            direction="left"
-          />
-          <EventCard
-            title="Haldi / Mehendi"
-            date="3rd June 2025"
-            time="6:00 PM Onwards"
-            venue="J.S.B Party Hall, 49, G.Z.B, Navyug Market, Naya Ganj, Ghaziabad, Uttar Pradesh 201001 via Hapur Rd"
-             imageUrl="https://imagewedz.oyoroomscdn.com/medium/photologue/images/city-hotel-naya-ganj-ghaziabad.jpg"
-             delay={900}
-            direction="right"
-          />
-          <EventCard
-            title="Shadi (Wedding)"
-            date="4th June 2025"
-            time="Barat Welcome at 8:00 PM"
-            venue="F395 Mahindra Enclave, Amrit Banquet Hall, Shastri Nagar, Near Uttam School, Ghaziabad"
-            imageUrl="https://media.weddingz.in/photologue/images/poornima-amrit-party-hall-poornima-amrit-party-hall-13.jpeg"
-            delay={1100}
-            direction="right"
-          />
-        </div>
+    <div id="events" className="flex flex-col items-center gap-12">
+  {/* Row 1: Two EventCards with same size */}
+  <div className="flex flex-col md:flex-row justify-center gap-12">
+    <div className="w-full md:w-[500px]">
+      <EventCard
+        title="Sagai (Engagement)"
+        date="2nd June 2025"
+        time="7:00 PM Onwards"
+        venue="R.K. Banquet, Rakesh Marg, GT ROAD Ghaziabad, Uttar Pradesh"
+        imageUrl="https://cdn.venuelook.com/uploads/space_9208/1497422583_595x400.png"
+        delay={800}
+        direction="left"
+      />
+    </div>
+    <div className="w-full md:w-[500px]">
+      <EventCard
+        title="Haldi / Mehendi"
+        date="3rd June 2025"
+        time="6:00 PM Onwards"
+        venue="J.S.B Party Hall, 49, G.Z.B, Navyug Market, Naya Ganj, Ghaziabad, Uttar Pradesh 201001"
+        imageUrl="https://imagewedz.oyoroomscdn.com/medium/photologue/images/city-hotel-naya-ganj-ghaziabad.jpg"
+        delay={900}
+        direction="right"
+      />
+    </div>
+  </div>
+
+  {/* Row 2: One centered card with same size */}
+  <div className="flex justify-center">
+    <div className="w-full md:w-[500px]">
+      <EventCard
+        title="Shadi (Wedding)"
+        date="4th June 2025"
+        time="Barat Welcome at 8:00 PM"
+        venue="F395 Mahindra Enclave, Amrit Banquet Hall, Shastri Nagar, Near Uttam School, Ghaziabad"
+        imageUrl="https://media.weddingz.in/photologue/images/poornima-amrit-party-hall-poornima-amrit-party-hall-13.jpeg"
+        delay={1100}
+        direction="right"
+      />
+    </div>
+  </div>
+</div>
+
+
+
         <div className="p-4 rounded-xl underline text-center flex flex-col text-gold items-center">
     
       <Users className="w-8 h-8 text-gold mb-2" />
